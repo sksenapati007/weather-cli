@@ -58,6 +58,11 @@ ${weatherIcon}
 `;
 }
 
+// Health/root endpoint (used by Render's port check and as a friendly landing page)
+app.get('/', (_req, res) => {
+  res.send('weather-cli is running. Try /weather?city=London');
+});
+
 // Web API endpoint
 app.get('/weather', async (req, res) => {
   try {
@@ -82,8 +87,15 @@ app.get('/weather', async (req, res) => {
   }
 });
 
-// CLI functionality
-if (require.main === module) {
+// Run as a web server when `--serve` is passed or MODE=server is set
+// (e.g. on Render); otherwise run as a one-shot CLI.
+const shouldServe = process.argv.includes('--serve') || process.env.MODE === 'server';
+
+if (shouldServe) {
+  app.listen(port, () => {
+    console.log(chalk.green(`Server is running on port ${port}`));
+  });
+} else if (require.main === module) {
   const argv: any = yargs
     .options('city', {
       alias: 'c',
@@ -104,9 +116,4 @@ if (require.main === module) {
     .catch((error) => {
       console.error(chalk.red('Error fetching weather data:'), error.message);
     });
-} else {
-  // Start the web server
-  app.listen(port, () => {
-    console.log(chalk.green(`Server is running on port ${port}`));
-  });
 }

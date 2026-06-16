@@ -5,7 +5,9 @@
   "main": "index.ts",
   "scripts": {
     "weather": "node dist/index.js --city",
+    "serve": "node dist/index.js --serve",
     "build": "tsc && bun build --target=bun ./dist/index.js --outfile=./dist/bundle.js",
+    "build:tsc": "tsc",
     "start": "ts-node src/index.ts",
     "dev": "nodemon --exec ts-node src/index.ts"
   },
