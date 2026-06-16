@@ -116,6 +116,18 @@ Response:
 
 The server listens on `PORT` (default `3000`).
 
+### Try it live
+
+A hosted instance is running on Render. Try it without setting anything up —
+this fetches Dubai's weather and prints the coloured terminal report:
+
+```bash
+curl -s "https://weather-cli-mrlm.onrender.com/weather?city=Dubai" | jq -r .formattedOutput
+```
+
+Swap `Dubai` for any city. Requires [`jq`](https://stedolan.github.io/jq/) to
+extract and render the `formattedOutput` field.
+
 ## npm scripts
 
 | Script          | What it does                                              |
